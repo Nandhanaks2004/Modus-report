@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MODUS — Product Documentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --bg-primary:#050505; --bg-secondary:#0B0B0B; --bg-card:#111111;
+    --bg-elevated:#1A1A1A; --border:#1F1F1F; --border-light:#2A2A2A;
+    --accent:#00FF9D; --accent-dark:#00D084; --accent-glow:rgba(0,255,157,0.15);
+    --text:#FFFFFF; --text-secondary:#A0A0A0; --text-muted:#666666;
+    --glass-bg:rgba(255,255,255,0.03); --glass-border:rgba(255,255,255,0.06);
+    --shadow:0 8px 32px rgba(0,0,0,0.4);
+  }
+  @page { size:A4; margin:1.8cm 1.5cm 1.8cm 1.5cm; }
+  body {
+    font-family:'Inter',-apple-system,sans-serif; background:var(--bg-primary);
+    color:var(--text); line-height:1.7; font-size:10.5pt;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media print {
+    body { background:var(--bg-primary) !important; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+    .page-break { page-break-after:always; }
+    .no-print { display:none !important; }
+    @page { margin:1.5cm 1.2cm 1.5cm 1.2cm; }
+  }
+
+  /* Cover */
+  .cover {
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    height:100vh; text-align:center; position:relative; overflow:hidden;
+    background:radial-gradient(ellipse at 50% 80%, rgba(0,255,157,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 20%, rgba(0,255,157,0.04) 0%, transparent 40%),
+                var(--bg-primary);
+  }
+  .cover::before {
+    content:''; position:absolute; top:0; left:0; right:0; bottom:0;
+    background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='g' patternUnits='userSpaceOnUse' width='60' height='60'%3E%3Cpath d='M 60 0 L 0 0 0 60' fill='none' stroke='rgba(255,255,255,0.02)' stroke-width='0.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='60' height='60' fill='url(%23g)'/%3E%3C/svg%3E");
+    opacity:0.5;
+  }
+  .cover-badge {
+    display:inline-block; padding:8px 24px; border:1px solid rgba(0,255,157,0.3);
+    border-radius:100px; font-size:9pt; letter-spacing:3px; text-transform:uppercase;
+    color:var(--accent); margin-bottom:40px; background:rgba(0,255,157,0.05);
+    backdrop-filter:blur(10px); position:relative;
+  }
+  .cover h1 {
+    font-size:64pt; font-weight:900; letter-spacing:-3px; position:relative;
+    background:linear-gradient(135deg,#FFFFFF 30%,var(--accent) 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
+  }
+  .cover .glow {
+    position:absolute; width:300px; height:300px; border-radius:50%;
+    background:radial-gradient(circle,rgba(0,255,157,0.15),transparent 70%);
+    top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none;
+  }
+  .cover .tagline { font-size:14pt; color:var(--text-secondary); margin:16px 0 30px; font-weight:300; letter-spacing:4px; position:relative; }
+  .cover .desc { font-size:11pt; color:var(--accent); margin-bottom:60px; font-weight:500; position:relative; }
+  .cover .meta { font-size:10pt; color:var(--text-muted); line-height:2.2; position:relative; }
+  .cover .meta strong { color:var(--text); }
+  .cover .divider { width:60px; height:2px; background:var(--accent); margin:30px auto; position:relative; }
+
+  /* Glass cards */
+  .glass {
+    background:var(--glass-bg); backdrop-filter:blur(20px);
+    border:1px solid var(--glass-border); border-radius:16px;
+    padding:32px; margin:24px 0;
+  }
+  .stat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin:24px 0; }
+  .stat-card {
+    background:var(--bg-card); border:1px solid var(--border); border-radius:12px;
+    padding:24px; text-align:center;
+  }
+  .stat-card .num { font-size:28pt; font-weight:800; color:var(--accent); }
+  .stat-card .label { font-size:9pt; color:var(--text-secondary); margin-top:4px; text-transform:uppercase; letter-spacing:1px; }
+  .stat-card .sub { font-size:8pt; color:var(--text-muted); margin-top:6px; }
+
+  /* Sections */
+  .section {
+    padding:40px 0; max-width:1000px; margin:0 auto;
+  }
+  .section h1 {
+    font-size:28pt; font-weight:800; letter-spacing:-1px; margin-bottom:8px;
+    background:linear-gradient(135deg,#FFFFFF,var(--accent));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text; display:inline-block;
+  }
+  .section .section-number {
+    font-size:10pt; color:var(--accent); font-weight:600; letter-spacing:2px;
+    text-transform:uppercase; margin-bottom:4px;
+  }
+  .section h2 { font-size:16pt; font-weight:700; color:var(--text); margin:28px 0 12px; }
+  .section h3 { font-size:12pt; font-weight:600; color:var(--text-secondary); margin:20px 0 8px; }
+  .section p { margin-bottom:10px; color:var(--text-secondary); line-height:1.8; }
+  .section ul, .section ol { margin:8px 0 12px 20px; color:var(--text-secondary); line-height:1.8; }
+  .section li { margin-bottom:4px; }
+
+  /* Diagram containers */
+  .diagram-box {
+    background:var(--bg-card); border:1px solid var(--border); border-radius:16px;
+    padding:24px; margin:24px 0; overflow-x:auto; text-align:center;
+  }
+  .diagram-box svg { max-width:100%; height:auto; }
+  .diagram-caption {
+    font-size:8.5pt; color:var(--text-muted); margin-top:12px; font-style:italic;
+  }
+
+  /* Tables */
+  table {
+    width:100%; border-collapse:collapse; margin:20px 0; font-size:9pt;
+  }
+  table th {
+    background:var(--bg-elevated); color:var(--accent); padding:10px 14px;
+    text-align:left; font-weight:600; border-bottom:2px solid var(--accent);
+  }
+  table td { padding:9px 14px; border-bottom:1px solid var(--border); color:var(--text-secondary); }
+  table tr:hover td { background:var(--bg-card); }
+  .pass { color:var(--accent); font-weight:600; }
+  .fail { color:#FF4444; font-weight:600; }
+  .yes { color:var(--accent); text-align:center; }
+  .no { color:var(--text-muted); text-align:center; }
+
+  /* Callout */
+  .callout {
+    background:rgba(0,255,157,0.06); border-left:3px solid var(--accent);
+    padding:16px 20px; margin:20px 0; border-radius:0 8px 8px 0;
+  }
+  .callout strong { color:var(--accent); }
+
+  /* Code */
+  code {
+    font-family:'JetBrains Mono',monospace; font-size:8.5pt;
+    background:var(--bg-elevated); padding:2px 8px; border-radius:4px; color:var(--accent);
+  }
+  pre {
+    font-family:'JetBrains Mono',monospace; font-size:8.5pt;
+    background:var(--bg-elevated); color:var(--text-secondary); padding:16px;
+    border-radius:10px; overflow-x:auto; margin:16px 0; border:1px solid var(--border);
+    line-height:1.6;
+  }
+
+  /* Feature grid */
+  .feature-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .feature-card {
+    background:var(--bg-card); border:1px solid var(--border); border-radius:12px;
+    padding:20px; 
+  }
+  .feature-card .icon { font-size:20pt; margin-bottom:8px; }
+  .feature-card h4 { font-size:11pt; font-weight:600; color:var(--text); margin-bottom:4px; }
+  .feature-card p { font-size:9pt; color:var(--text-muted); margin:0; }
+
+  /* Divider */
+  .section-divider {
+    height:1px; background:linear-gradient(90deg,transparent,var(--accent),transparent);
+    margin:32px 0; opacity:0.3;
+  }
+
+  /* Flow */
+  .flow-row { display:flex; justify-content:center; align-items:center; gap:8px; flex-wrap:wrap; margin:20px 0; }
+  .flow-step {
+    background:var(--bg-elevated); border:1px solid var(--border); border-radius:8px;
+    padding:10px 16px; text-align:center; font-size:9pt; color:var(--text-secondary);
+    min-width:100px;
+  }
+  .flow-step.active { border-color:var(--accent); color:var(--accent); background:rgba(0,255,157,0.06); }
+  .flow-arrow { color:var(--accent); font-size:14pt; }
+
+  .tag {
+    display:inline-block; padding:3px 10px; border-radius:100px;
+    font-size:7.5pt; font-weight:600; text-transform:uppercase; letter-spacing:1px;
+    background:rgba(0,255,157,0.1); color:var(--accent); border:1px solid rgba(0,255,157,0.2);
+  }
+  .tag.purple { background:rgba(139,92,246,0.1); color:#8B92F6; border-color:rgba(139,92,246,0.2); }
+  .tag.blue { background:rgba(59,130,246,0.1); color:#60A5FA; border-color:rgba(59,130,246,0.2); }
+  .tag.orange { background:rgba(251,146,60,0.1); color:#FB923C; border-color:rgba(251,146,60,0.2); }
+
+  .footer-note {
+    text-align:center; padding:20px 0 10px; font-size:8pt; color:var(--text-muted);
+    border-top:1px solid var(--border);
+  }
+
+  /* Responsive print */
+  @media print {
+    .section { max-width:100%; padding:20px 0; }
+    .feature-grid { page-break-inside:avoid; }
+    .diagram-box { page-break-inside:avoid; }
+    table { page-break-inside:avoid; }
+    h1, h2, h3 { page-break-after:avoid; }
+    .stat-card { page-break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== COVER ===== -->
+<div class="cover page-break">
+  <div class="glow"></div>
+  <div class="cover-badge">Product Documentation v1.0</div>
+  <h1>MODUS</h1>
+  <div class="divider"></div>
+  <div class="tagline">Cybersecurity Learning. Assessment. Challenges. Labs. Unified.</div>
+  <div class="desc">Cybersecurity Learning Management Platform</div>
+  <div class="meta">
+    <strong>Developer:</strong> Nandhana K.S<br>
+    <strong>Stack:</strong> React &bull; Flask &bull; SQLite &bull; JWT<br>
+    <strong>Category:</strong> LMS + CTF + Linux Labs + Exam Engine + Analytics<br>
+    <strong>Version:</strong> 1.0.0 &mdash; June 2026
+  </div>
+</div>
+
+<!-- ===== 1. EXECUTIVE SUMMARY ===== -->
+<div class="section page-break">
+  <div class="section-number">Section 01</div>
+  <h1>Executive Summary</h1>
+  <div class="section-divider"></div>
+
+  <p>MODUS is a unified cybersecurity training platform that replaces the fragmented toolchain of traditional learning management with an integrated, hands-on experience. It combines the structure of an LMS, the engagement of a CTF platform, the practicality of a Linux lab, and the rigor of an examination portal — all in one system.</p>
+
+  <div class="stat-grid">
+    <div class="stat-card"><div class="num">11</div><div class="label">Core Modules</div><div class="sub">End-to-end feature coverage</div></div>
+    <div class="stat-card"><div class="num">19+</div><div class="label">Database Tables</div><div class="sub">Normalized relational schema</div></div>
+    <div class="stat-card"><div class="num">2</div><div class="label">User Roles</div><div class="sub">Admin + Student RBAC</div></div>
+    <div class="stat-card"><div class="num">10</div><div class="label">Linux Commands</div><div class="sub">Browser terminal simulation</div></div>
+    <div class="stat-card"><div class="num">100%</div><div class="label">Browser-Based</div><div class="sub">No VMs or installs required</div></div>
+  </div>
+
+  <div class="callout">
+    <strong>Core Value Proposition:</strong> MODUS eliminates the need for multiple independent platforms — Google Classroom, Hack The Box, TryHackMe, Exam portals, and manual spreadsheets — consolidating everything into a single, self-hosted cybersecurity training ecosystem.
+  </div>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="icon">🎯</div>
+      <h4>Built for Trainers</h4>
+      <p>Create batches, assign modules, design exams, publish challenges — all from one dashboard. Track every student's progress in real-time.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">⚡</div>
+      <h4>Built for Students</h4>
+      <p>Learn at your own pace. Practice Linux in-browser. Solve CTF challenges. Earn XP. Compete on leaderboards. All without leaving the platform.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🔒</div>
+      <h4>Self-Hosted &amp; Secure</h4>
+      <p>Full institutional control. JWT authentication. Password hashing. Role-based access. No third-party data exposure.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📊</div>
+      <h4>Data-Driven</h4>
+      <p>Comprehensive analytics dashboard. Track exam performance, challenge completion, XP trends, and batch-level statistics.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 2. PRODUCT VISION ===== -->
+<div class="section page-break">
+  <div class="section-number">Section 02</div>
+  <h1>Product Vision</h1>
+  <div class="section-divider"></div>
+
+  <h2>The Problem</h2>
+  <p>Cybersecurity training is broken. Instructors juggle Google Classroom for content, separate exam portals for assessments, Hack The Box for practical labs, and spreadsheets for tracking — all while students struggle with setup overhead and fragmented learning experiences.</p>
+
+  <div class="stat-grid">
+    <div class="stat-card"><div class="num" style="font-size:20pt;">4-6</div><div class="label">Platforms Required</div><div class="sub">Currently needed for training</div></div>
+    <div class="stat-card"><div class="num" style="font-size:20pt;">60%</div><div class="label">Time Lost</div><div class="sub">To context-switching between tools</div></div>
+    <div class="stat-card"><div class="num" style="font-size:20pt;">30min</div><div class="label">Setup Time</div><div class="sub">Per student for lab environments</div></div>
+    <div class="stat-card"><div class="num" style="font-size:20pt;">0</div><div class="label">Unified Analytics</div><div class="sub">Across existing platforms</div></div>
+  </div>
+
+  <h2>The MODUS Vision</h2>
+  <p>One platform. One login. Every tool a cybersecurity training institution needs.</p>
+
+  <div class="diagram-box">
+    <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ag" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#00FF9D"/>
+          <stop offset="100%" style="stop-color:#00D084"/>
+        </linearGradient>
+        <linearGradient id="dg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#2A2A2A"/>
+          <stop offset="100%" style="stop-color:#1A1A1A"/>
+        </linearGradient>
+      </defs>
+      <rect x="40" y="30" width="720" height="50" rx="10" fill="none" stroke="rgba(0,255,157,0.3)" stroke-width="1.5"/>
+      <text x="400" y="62" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="16" fill="#00FF9D">TRADITIONAL APPROACH</text>
+      <rect x="50" y="100" width="120" height="40" rx="6" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="110" y="126" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#888">Google Classroom</text>
+      <rect x="190" y="100" width="120" height="40" rx="6" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="250" y="126" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#888">Exam Portal</text>
+      <rect x="330" y="100" width="120" height="40" rx="6" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="390" y="126" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#888">Hack The Box</text>
+      <rect x="470" y="100" width="120" height="40" rx="6" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="530" y="126" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#888">Spreadsheets</text>
+      <rect x="610" y="100" width="120" height="40" rx="6" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="670" y="126" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#888">Linux VMs</text>
+
+      <text x="400" y="175" text-anchor="middle" font-size="24" fill="#00FF9D">&#8595;</text>
+
+      <rect x="40" y="195" width="720" height="50" rx="10" fill="none" stroke="rgba(0,255,157,0.5)" stroke-width="1.5"/>
+      <text x="400" y="227" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="16" fill="#FFFFFF">MODUS — ONE PLATFORM</text>
+      <rect x="50" y="255" width="700" height="35" rx="20" fill="url(#ag)"/>
+      <text x="400" y="278" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="11" fill="#050505">LMS &bull; CTF &bull; Linux Lab &bull; Exam Engine &bull; Analytics &bull; Gamification</text>
+    </svg>
+    <div class="diagram-caption">MODUS consolidates 5+ tools into a single platform</div>
+  </div>
+</div>
+
+<!-- ===== 3. PRODUCT OVERVIEW ===== -->
+<div class="section page-break">
+  <div class="section-number">Section 03</div>
+  <h1>Product Overview</h1>
+  <div class="section-divider"></div>
+  <p>MODUS is a full-stack cybersecurity learning ecosystem. Every component is designed to work together, creating a seamless experience from content delivery to practical assessment.</p>
+
+  <div class="diagram-box">
+    <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="cg"><stop offset="0%" style="stop-color:rgba(0,255,157,0.12)"/><stop offset="100%" style="stop-color:transparent"/></radialGradient>
+      </defs>
+      <circle cx="450" cy="210" r="90" fill="url(#cg)"/>
+      <rect x="400" y="190" width="100" height="40" rx="20" fill="#00FF9D"/>
+      <text x="450" y="216" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="14" fill="#050505">MODUS</text>
+
+      <!-- Outer rings -->
+      <rect x="180" y="60" width="130" height="44" rx="8" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="245" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#00FF9D">Student Management</text>
+      <line x1="310" y1="82" x2="400" y2="205" stroke="rgba(0,255,157,0.2)" stroke-width="1"/>
+
+      <rect x="580" y="60" width="130" height="44" rx="8" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="645" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#00FF9D">Batch Management</text>
+      <line x1="580" y1="82" x2="500" y2="205" stroke="rgba(0,255,157,0.2)" stroke-width="1"/>
+
+      <rect x="30" y="160" width="130" height="44" rx="8" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="95" y="188" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#00FF9D">Learning Modules</text>
+      <line x1="160" y1="182" x2="400" y2="205" stroke="rgba(0,255,157,0.2)" stroke-width="1"/>
+
+      <rect x="730" y="160" width="130" height="44" rx="8" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="795" y="188" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#00FF9D">Assignments</text>
+      <line x1="730" y1="182" x2="500" y2="205" stroke="rgba(0,255,157,0.2)" stroke-width="1"/>
+
+      <rect x="180" y="300" width="130" height="44" rx="8" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="245" y="328" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#00FF9D">Examination Engine</text>
+      <line x1="310" y1="322" x2="400" y2="235" stroke="rgba(0,255,157,0.2)" stroke-width="1"/>
+
+      <rect x="580" y="300" width="130" height="44" rx="8" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="645" y="328" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#00FF9D">Challenge Engine</text>
+      <line x1="580" y1="322" x2="500" y2="235" stroke="rgba(0,255,157,0.2)" stroke-width="1"/>
+
+      <rect x="30" y="280" width="130" height="44" rx="8" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="95" y="308" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#00FF9D">Linux Simulator</text>
+      <line x1="160" y1="302" x2="400" y2="235" stroke="rgba(0,255,157,0.2)" stroke-width="1"/>
+
+      <rect x="730" y="280" width="130" height="44" rx="8" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="795" y="308" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#00FF9D">Gamification</text>
+      <line x1="730" y1="302" x2="500" y2="235" stroke="rgba(0,255,157,0.2)" stroke-width="1"/>
+
+      <rect x="350" y="340" width="200" height="44" rx="8" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="450" y="368" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#00FF9D">Analytics &amp; Notifications</text>
+      <line x1="450" y1="300" x2="450" y2="340" stroke="rgba(0,255,157,0.2)" stroke-width="1"/>
+    </svg>
+    <div class="diagram-caption">MODUS Product Ecosystem — 11 interconnected modules around a unified core</div>
+  </div>
+</div>
+
+<!-- ===== 4. PRODUCT ARCHITECTURE ===== -->
+<div class="section page-break">
+  <div class="section-number">Section 04</div>
+  <h1>Product Architecture</h1>
+  <div class="section-divider"></div>
+
+  <h2>High-Level Architecture</h2>
+  <p>MODUS follows a modern three-tier architecture with clear separation between presentation, business logic, and data persistence layers.</p>
+
+  <div class="diagram-box">
+    <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ag2" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#00FF9D"/>
+          <stop offset="100%" style="stop-color:#00D084"/>
+        </linearGradient>
+        <linearGradient id="bg2" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#1F1F1F"/>
+          <stop offset="100%" style="stop-color:#111111"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Users -->
+      <rect x="300" y="15" width="200" height="40" rx="20" fill="url(#ag2)"/>
+      <text x="400" y="42" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="12" fill="#050505">Users (Browser)</text>
+
+      <text x="400" y="75" text-anchor="middle" font-size="18" fill="#00FF9D">&#8595;</text>
+
+      <!-- Frontend -->
+      <rect x="50" y="90" width="700" height="100" rx="12" fill="#111" stroke="#333" stroke-width="1"/>
+      <rect x="50" y="90" width="700" height="32" rx="12" fill="url(#bg2)"/>
+      <rect x="50" y="110" width="700" height="12" fill="url(#bg2)"/>
+      <text x="400" y="112" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="13" fill="#00FF9D">PRESENTATION LAYER — React Frontend</text>
+
+      <rect x="75" y="135" width="150" height="40" rx="6" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="150" y="160" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#999">React 18 + Vite 5</text>
+      <rect x="240" y="135" width="150" height="40" rx="6" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="315" y="160" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#999">Tailwind CSS</text>
+      <rect x="405" y="135" width="150" height="40" rx="6" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="480" y="160" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#999">React Router</text>
+      <rect x="570" y="135" width="150" height="40" rx="6" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="645" y="160" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#999">Recharts + FM</text>
+
+      <text x="400" y="210" text-anchor="middle" font-size="18" fill="#00FF9D">&#8595; REST API (JSON)</text>
+
+      <!-- Backend -->
+      <rect x="50" y="225" width="700" height="100" rx="12" fill="#111" stroke="#333" stroke-width="1"/>
+      <rect x="50" y="225" width="700" height="32" rx="12" fill="url(#ag2)"/>
+      <rect x="50" y="245" width="700" height="12" fill="url(#ag2)"/>
+      <text x="400" y="247" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="13" fill="#050505">BUSINESS LAYER — Flask API</text>
+
+      <rect x="75" y="270" width="200" height="40" rx="6" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="175" y="295" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#999">Route Blueprints</text>
+      <rect x="295" y="270" width="200" height="40" rx="6" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="395" y="295" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#999">Service Layer</text>
+      <rect x="515" y="270" width="200" height="40" rx="6" fill="#1A1A1A" stroke="#333" stroke-width="1"/>
+      <text x="615" y="295" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#999">JWT Auth</text>
+
+      <text x="400" y="345" text-anchor="middle" font-size="18" fill="#00FF9D">&#8595; SQL</text>
+
+      <!-- Database -->
+      <rect x="150" y="360" width="500" height="80" rx="12" fill="#111" stroke="#333" stroke-width="1"/>
+      <rect x="150" y="360" width="500" height="32" rx="12" fill="url(#bg2)"/>
+      <rect x="150" y="380" width="500" height="12" fill="url(#bg2)"/>
+      <text x="400" y="382" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="13" fill="#00FF9D">DATA LAYER — SQLite</text>
+      <text x="400" y="415" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#666">modus.db — 19 tables — Indexed — ACID</text>
+    </svg>
+    <div class="diagram-caption">High-Level System Architecture</div>
+  </div>
+</div>
+
+<!-- ===== MORE ARCHITECTURE ===== -->
+<div class="section page-break">
+  <h2>Authentication Architecture</h2>
+  <p>JWT-based stateless authentication with role-based access control. Tokens carry user identity and role, enabling efficient authorization without server-side sessions.</p>
+
+  <div class="diagram-box">
+    <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto">
+          <path d="M0 0 L8 4 L0 8z" fill="#00FF9D"/>
+        </marker>
+      </defs>
+      <rect x="20" y="20" width="160" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="100" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#FFF">Login Form</text>
+      <line x1="180" y1="45" x2="230" y2="45" stroke="#00FF9D" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+      <rect x="240" y="20" width="160" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="320" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#FFF">AuthService</text>
+      <line x1="400" y1="45" x2="450" y2="45" stroke="#00FF9D" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+      <rect x="460" y="20" width="160" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="540" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#FFF">Flask API</text>
+      <line x1="540" y1="70" x2="540" y2="110" stroke="#00FF9D" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+      <rect x="460" y="120" width="160" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="540" y="150" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#FFF">Password Verify</text>
+      <line x1="540" y1="170" x2="540" y2="210" stroke="#00FF9D" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+      <rect x="460" y="220" width="160" height="50" rx="8" fill="#00FF9D"/>
+      <text x="540" y="250" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="10" fill="#050505">JWT Generated</text>
+      <line x1="460" y1="245" x2="400" y2="245" stroke="#00FF9D" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+      <rect x="240" y="220" width="140" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="310" y="250" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="#FFF">Dashboard</text>
+
+      <rect x="20" y="220" width="180" height="50" rx="8" fill="#0B0B0B" stroke="#333" stroke-dasharray="4,4"/>
+      <text x="110" y="245" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#666">Token stored in localStorage</text>
+    </svg>
+    <div class="diagram-caption">JWT Authentication Flow</div>
+  </div>
+
+  <h2>API Architecture</h2>
+  <p>All communication flows through a structured request pipeline ensuring separation of concerns and maintainability.</p>
+
+  <div class="diagram-box">
+    <svg viewBox="0 0 800 180" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="arr2" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8z" fill="#00FF9D"/></marker></defs>
+      <rect x="10" y="65" width="150" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="85" y="95" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">React Component</text>
+      <line x1="160" y1="90" x2="210" y2="90" stroke="#00FF9D" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+      <rect x="220" y="65" width="150" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="295" y="95" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">Service Layer</text>
+      <line x1="370" y1="90" x2="420" y2="90" stroke="#00FF9D" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+      <rect x="430" y="65" width="150" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="505" y="95" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">Flask Route</text>
+      <line x1="580" y1="90" x2="630" y2="90" stroke="#00FF9D" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+      <rect x="640" y="65" width="150" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="715" y="95" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">SQLite DB</text>
+    </svg>
+    <div class="diagram-caption">Request Pipeline: Component → Service → Route → Database</div>
+  </div>
+</div>
+
+<!-- ===== 5. CORE MODULES ===== -->
+<div class="section page-break">
+  <div class="section-number">Section 05</div>
+  <h1>Core Platform Modules</h1>
+  <div class="section-divider"></div>
+
+  <div class="glass">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <h3 style="margin:0; color:var(--accent);">01. Authentication Module</h3>
+      <span class="tag">SECURITY</span>
+    </div>
+    <p>JWT-based authentication with role-based access control. Passwords hashed with PBKDF2-SHA256. The system supports two roles: Admin and Student, with distinct permissions and interfaces.</p>
+    <table>
+      <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>AuthContext.jsx</td><td>Global auth state management</td></tr>
+        <tr><td>auth_routes.py</td><td>Flask route handlers for login/register</td></tr>
+        <tr><td>jwt_handler.py</td><td>Token encode/decode logic</td></tr>
+        <tr><td>role_middleware.py</td><td>@login_required / @admin_required decorators</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="glass">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <h3 style="margin:0; color:var(--accent);">02. Student Management</h3>
+      <span class="tag blue">ADMIN</span>
+    </div>
+    <p>Full CRUD operations for student accounts. Tracks progress across exams, assignments, challenges, and XP. Integrated with batch system for organizational grouping.</p>
+  </div>
+
+  <div class="glass">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <h3 style="margin:0; color:var(--accent);">03. Batch Management</h3>
+      <span class="tag orange">ORGANIZATION</span>
+    </div>
+    <p>Students organized into training batches with independent curricula. Each batch can have different modules, assignments, and exams. Enables running multiple courses simultaneously.</p>
+  </div>
+
+  <div class="glass">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <h3 style="margin:0; color:var(--accent);">04. Examination Engine</h3>
+      <span class="tag">ASSESSMENT</span>
+    </div>
+    <p>Complete online examination system with a reusable question bank supporting MCQ, multi-select, and scenario-based questions. Features timed exams, auto-evaluation, and configurable pass thresholds (default 75%).</p>
+    <div class="flow-row">
+      <div class="flow-step active">Question Bank</div><span class="flow-arrow">→</span>
+      <div class="flow-step">Exam Created</div><span class="flow-arrow">→</span>
+      <div class="flow-step">Published</div><span class="flow-arrow">→</span>
+      <div class="flow-step">Student Attempts</div><span class="flow-arrow">→</span>
+      <div class="flow-step">Auto-Evaluated</div><span class="flow-arrow">→</span>
+      <div class="flow-step active">Result + XP</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHALLENGE ENGINE DEEP DIVE ===== -->
+<div class="section page-break">
+  <div class="section-number">Section 06</div>
+  <h1>Challenge Platform Deep Dive</h1>
+  <div class="section-divider"></div>
+  <p>The Challenge Engine is the heart of MODUS — a complete CTF-style platform integrated directly into the learning flow.</p>
+
+  <div class="stat-grid">
+    <div class="stat-card"><div class="num" style="font-size:18pt;">4</div><div class="label">Challenge Categories</div><div class="sub">Linux, Networking, Pentesting, Web</div></div>
+    <div class="stat-card"><div class="num" style="font-size:18pt;">3</div><div class="label">Difficulty Levels</div><div class="sub">Easy, Medium, Hard</div></div>
+    <div class="stat-card"><div class="num" style="font-size:18pt;">1</div><div class="label">Flag Per Challenge</div><div class="sub">Case-sensitive validation</div></div>
+    <div class="stat-card"><div class="num" style="font-size:18pt;">Instant</div><div class="label">XP Award</div><div class="sub">On correct flag submission</div></div>
+  </div>
+
+  <h2>Challenge Lifecycle</h2>
+  <div class="diagram-box">
+    <svg viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="arr3" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8z" fill="#00FF9D"/></marker></defs>
+      <rect x="30" y="30" width="140" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="100" y="60" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">Admin Creates</text>
+      <line x1="170" y1="55" x2="210" y2="55" stroke="#00FF9D" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+      <rect x="220" y="30" width="140" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="290" y="60" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">Published</text>
+      <line x1="360" y1="55" x2="400" y2="55" stroke="#00FF9D" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+      <rect x="410" y="30" width="140" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="480" y="60" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">Student Opens</text>
+      <line x1="550" y1="55" x2="590" y2="55" stroke="#00FF9D" stroke-width="1.5" marker-end="url(#arr3)"/>
+
+      <rect x="600" y="30" width="140" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="670" y="60" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">Runtime Loads</text>
+
+      <line x1="670" y1="80" x2="670" y2="115" stroke="#00FF9D" stroke-width="1.5" marker-end="url(#arr3)"/>
+      <rect x="600" y="125" width="140" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="670" y="155" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">Investigation</text>
+
+      <line x1="600" y1="150" x2="290" y2="150" stroke="#00FF9D" stroke-width="1.5"/>
+      <line x1="290" y1="150" x2="290" y2="115" stroke="#00FF9D" stroke-width="1.5" marker-end="url(#arr3)"/>
+      <rect x="220" y="125" width="140" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="290" y="155" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">Flag Found</text>
+
+      <line x1="220" y1="150" x2="100" y2="150" stroke="#00FF9D" stroke-width="1.5"/>
+      <line x1="100" y1="150" x2="100" y2="115" stroke="#00FF9D" stroke-width="1.5" marker-end="url(#arr3)"/>
+      <rect x="30" y="125" width="140" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="100" y="155" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">Flag Submitted</text>
+
+      <line x1="100" y1="175" x2="100" y2="210" stroke="#00FF9D" stroke-width="1.5" marker-end="url(#arr3)"/>
+      <rect x="30" y="220" width="140" height="50" rx="8" fill="#00FF9D"/>
+      <text x="100" y="250" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="9" fill="#050505">Validated + XP Awarded</text>
+
+      <line x1="170" y1="245" x2="290" y2="245" stroke="#00FF9D" stroke-width="1.5" marker-end="url(#arr3)"/>
+      <rect x="300" y="220" width="140" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="370" y="250" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">Leaderboard Updated</text>
+    </svg>
+    <div class="diagram-caption">Complete Challenge Lifecycle — from creation to leaderboard update</div>
+  </div>
+</div>
+
+<!-- ===== LINUX TERMINAL DEEP DIVE ===== -->
+<div class="section page-break">
+  <div class="section-number">Section 07</div>
+  <h1>Linux Terminal Simulator Deep Dive</h1>
+  <div class="section-divider"></div>
+  <p>The most technically innovative feature of MODUS — a fully functional Linux terminal that runs entirely in the browser, requiring zero infrastructure.</p>
+
+  <h2>Architecture</h2>
+  <div class="diagram-box">
+    <svg viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="arr4" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8z" fill="#00FF9D"/></marker></defs>
+      <rect x="20" y="65" width="120" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="80" y="95" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">Terminal UI</text>
+      <line x1="140" y1="90" x2="180" y2="90" stroke="#00FF9D" marker-end="url(#arr4)"/>
+
+      <rect x="190" y="65" width="120" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="250" y="95" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">Parser</text>
+      <line x1="310" y1="90" x2="350" y2="90" stroke="#00FF9D" marker-end="url(#arr4)"/>
+
+      <rect x="360" y="65" width="120" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="420" y="95" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">Dispatcher</text>
+      <line x1="480" y1="90" x2="520" y2="90" stroke="#00FF9D" marker-end="url(#arr4)"/>
+
+      <rect x="530" y="65" width="120" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="590" y="95" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">Handler</text>
+      <line x1="650" y1="90" x2="690" y2="90" stroke="#00FF9D" marker-end="url(#arr4)"/>
+
+      <rect x="700" y="65" width="80" height="50" rx="8" fill="#00FF9D"/>
+      <text x="740" y="95" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="8" fill="#050505">VFS</text>
+
+      <line x1="740" y1="115" x2="740" y2="140" stroke="#00FF9D" marker-end="url(#arr4)"/>
+      <rect x="700" y="145" width="80" height="40" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="740" y="170" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#FFF">Output</text>
+    </svg>
+    <div class="diagram-caption">Terminal Pipeline: Input → Parser → Dispatcher → Handler → VFS → Output</div>
+  </div>
+
+  <h2>Supported Commands</h2>
+  <table>
+    <thead><tr><th>Command</th><th>Module</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><code>ls</code></td><td>ls.js</td><td>List directory contents with format flags</td></tr>
+      <tr><td><code>cd</code></td><td>cd.js</td><td>Navigate virtual filesystem</td></tr>
+      <tr><td><code>pwd</code></td><td>pwd.js</td><td>Print current working directory</td></tr>
+      <tr><td><code>cat</code></td><td>cat.js</td><td>Read and display file contents</td></tr>
+      <tr><td><code>cp</code></td><td>cp.js</td><td>Copy files within VFS</td></tr>
+      <tr><td><code>mv</code></td><td>mv.js</td><td>Move and rename files</td></tr>
+      <tr><td><code>chmod</code></td><td>chmod.js</td><td>Change virtual file permissions</td></tr>
+      <tr><td><code>find</code></td><td>find.js</td><td>Search files by name/pattern</td></tr>
+      <tr><td><code>env</code></td><td>env.js</td><td>View environment variables</td></tr>
+      <tr><td><code>file</code></td><td>file.js</td><td>Determine file type</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== DATABASE DESIGN ===== -->
+<div class="section page-break">
+  <div class="section-number">Section 08</div>
+  <h1>Database Design</h1>
+  <div class="section-divider"></div>
+  <p>19 tables across a normalized relational schema designed for training operations. The schema supports batch-isolated content delivery, exam lifecycle management, challenge tracking, and gamification.</p>
+
+  <div class="diagram-box">
+    <svg viewBox="0 0 900 650" xmlns="http://www.w3.org/2000/svg">
+      <style>
+        .ent { fill:#111; stroke:#333; stroke-width:1.5; rx:8; }
+        .ent-accent { fill:#111; stroke:#00FF9D; stroke-width:1.5; rx:8; }
+        .ent-title { fill:#00FF9D; font-family:Inter,sans-serif; font-weight:700; font-size:11px; }
+        .ent-field { fill:#888; font-family:Inter,sans-serif; font-size:8px; }
+        .line { stroke:rgba(255,255,255,0.1); stroke-width:1; }
+        .line-accent { stroke:rgba(0,255,157,0.3); stroke-width:1; }
+        .rel { fill:#666; font-family:Inter,sans-serif; font-size:7px; }
+      </style>
+
+      <!-- users -->
+      <rect class="ent" x="20" y="20" width="180" height="90"/>
+      <text class="ent-title" x="110" y="42" text-anchor="middle">USERS</text>
+      <text class="ent-field" x="30" y="58">PK id</text>
+      <text class="ent-field" x="30" y="72">username (UNIQUE)</text>
+      <text class="ent-field" x="30" y="86">email (UNIQUE)</text>
+      <text class="ent-field" x="30" y="100">role (student|admin)</text>
+
+      <!-- batches -->
+      <rect class="ent" x="360" y="20" width="180" height="90"/>
+      <text class="ent-title" x="450" y="42" text-anchor="middle">BATCHES</text>
+      <text class="ent-field" x="370" y="58">PK id</text>
+      <text class="ent-field" x="370" y="72">name</text>
+      <text class="ent-field" x="370" y="86">course_type</text>
+      <text class="ent-field" x="370" y="100">instructor</text>
+
+      <!-- batch_students -->
+      <rect class="ent" x="680" y="20" width="180" height="70"/>
+      <text class="ent-title" x="770" y="42" text-anchor="middle">BATCH_STUDENTS</text>
+      <text class="ent-field" x="690" y="58">FK batch_id / student_id</text>
+      <text class="ent-field" x="690" y="72">UNIQUE(batch, student)</text>
+
+      <line class="line" x1="200" y1="50" x2="360" y2="50"/>
+      <text class="rel" x="280" y="45" text-anchor="middle">1 — *</text>
+      <line class="line" x1="540" y1="50" x2="680" y2="50"/>
+      <text class="rel" x="610" y="45" text-anchor="middle">1 — *</text>
+
+      <!-- modules -->
+      <rect class="ent" x="20" y="150" width="180" height="90"/>
+      <text class="ent-title" x="110" y="172" text-anchor="middle">MODULES</text>
+      <text class="ent-field" x="30" y="188">PK id</text>
+      <text class="ent-field" x="30" y="202">title, difficulty</text>
+      <text class="ent-field" x="30" y="216">FK created_by</text>
+      <text class="ent-field" x="30" y="230">is_active</text>
+
+      <!-- batch_modules -->
+      <rect class="ent" x="360" y="150" width="180" height="70"/>
+      <text class="ent-title" x="450" y="172" text-anchor="middle">BATCH_MODULES</text>
+      <text class="ent-field" x="370" y="188">FK batch_id / module_id</text>
+      <text class="ent-field" x="370" y="202">is_visible, unlock_date</text>
+
+      <line class="line" x1="200" y1="200" x2="360" y2="190"/>
+      <text class="rel" x="280" y="185" text-anchor="middle">1 — *</text>
+
+      <!-- questions -->
+      <rect class="ent" x="680" y="130" width="180" height="90"/>
+      <text class="ent-title" x="770" y="152" text-anchor="middle">QUESTIONS</text>
+      <text class="ent-field" x="690" y="168">PK id</text>
+      <text class="ent-field" x="690" y="182">title, description</text>
+      <text class="ent-field" x="690" y="196">type, difficulty</text>
+      <text class="ent-field" x="690" y="210">points</text>
+
+      <!-- exams -->
+      <rect class="ent" x="360" y="280" width="180" height="90"/>
+      <text class="ent-title" x="450" y="302" text-anchor="middle">EXAMS</text>
+      <text class="ent-field" x="370" y="318">PK id</text>
+      <text class="ent-field" x="370" y="332">title, description</text>
+      <text class="ent-field" x="370" y="346">duration_minutes</text>
+      <text class="ent-field" x="370" y="360">is_published</text>
+
+      <!-- exam_attempts -->
+      <rect class="ent" x="20" y="300" width="180" height="90"/>
+      <text class="ent-title" x="110" y="322" text-anchor="middle">EXAM_ATTEMPTS</text>
+      <text class="ent-field" x="30" y="338">PK id, FK exam_id</text>
+      <text class="ent-field" x="30" y="352">FK student_id</text>
+      <text class="ent-field" x="30" y="366">score, status</text>
+      <text class="ent-field" x="30" y="380">xp_earned</text>
+
+      <line class="line" x1="200" y1="330" x2="360" y2="320"/>
+      <text class="rel" x="280" y="315" text-anchor="middle">1 — *</text>
+      <line class="line-accent" x1="110" y1="110" x2="110" y2="300"/>
+      <text class="rel" x="120" y="200" text-anchor="middle">1 — *</text>
+
+      <!-- exam_questions -->
+      <rect class="ent" x="680" y="280" width="180" height="70"/>
+      <text class="ent-title" x="770" y="302" text-anchor="middle">EXAM_QUESTIONS</text>
+      <text class="ent-field" x="690" y="318">FK exam_id / question_id</text>
+      <text class="ent-field" x="690" y="332">question_order</text>
+
+      <line class="line" x1="540" y1="320" x2="680" y2="320"/>
+      <text class="rel" x="610" y="315" text-anchor="middle">1 — *</text>
+      <line class="line" x1="770" y1="220" x2="770" y2="280"/>
+      <text class="rel" x="780" y="250" text-anchor="middle">1 — *</text>
+
+      <!-- challenges -->
+      <rect class="ent-accent" x="360" y="440" width="180" height="90"/>
+      <text class="ent-title" x="450" y="462" text-anchor="middle">CHALLENGES</text>
+      <text class="ent-field" x="370" y="478">PK id</text>
+      <text class="ent-field" x="370" y="492">title, description</text>
+      <text class="ent-field" x="370" y="506">difficulty, points</text>
+      <text class="ent-field" x="370" y="520">flag (hashed)</text>
+
+      <!-- completions -->
+      <rect class="ent" x="680" y="450" width="180" height="70"/>
+      <text class="ent-title" x="770" y="472" text-anchor="middle">COMPLETIONS</text>
+      <text class="ent-field" x="690" y="488">FK challenge_id / student_id</text>
+      <text class="ent-field" x="690" y="502">is_correct</text>
+
+      <line class="line-accent" x1="540" y1="490" x2="680" y2="490"/>
+      <text class="rel" x="610" y="485" text-anchor="middle">1 — *</text>
+
+      <!-- xp -->
+      <rect class="ent" x="20" y="460" width="180" height="70"/>
+      <text class="ent-title" x="110" y="482" text-anchor="middle">XP_TRANSACTIONS</text>
+      <text class="ent-field" x="30" y="498">FK student_id</text>
+      <text class="ent-field" x="30" y="512">points, reason</text>
+
+      <line class="line" x1="110" y1="110" x2="110" y2="460"/>
+      <text class="rel" x="122" y="300" text-anchor="middle" transform="rotate(-90,122,300)">1 — *</text>
+
+      <!-- notifications -->
+      <rect class="ent" x="20" y="570" width="180" height="70"/>
+      <text class="ent-title" x="110" y="592" text-anchor="middle">NOTIFICATIONS</text>
+      <text class="ent-field" x="30" y="608">FK user_id</text>
+      <text class="ent-field" x="30" y="622">message, type</text>
+
+      <line class="line" x1="110" y1="530" x2="110" y2="570"/>
+
+      <!-- Legend -->
+      <rect x="680" y="560" width="180" height="80" rx="6" fill="#0B0B0B" stroke="#333"/>
+      <text x="770" y="580" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="9" fill="#FFF">Legend</text>
+      <rect x="690" y="590" width="10" height="10" fill="#111" stroke="#333" rx="2"/>
+      <text x="708" y="599" font-family="Inter,sans-serif" font-size="7" fill="#888">Entity</text>
+      <rect x="760" y="590" width="10" height="10" fill="#111" stroke="#00FF9D" rx="2"/>
+      <text x="778" y="599" font-family="Inter,sans-serif" font-size="7" fill="#888">Challenge Entity</text>
+      <text x="690" y="625" font-family="Inter,sans-serif" font-size="7" fill="#666">PK = Primary Key — FK = Foreign Key</text>
+    </svg>
+    <div class="diagram-caption">Entity Relationship Diagram — crow's foot notation</div>
+  </div>
+</div>
+
+<!-- ===== SECURITY ===== -->
+<div class="section page-break">
+  <div class="section-number">Section 09</div>
+  <h1>Security Architecture</h1>
+  <div class="section-divider"></div>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h4>JWT Authentication</h4>
+      <p>Stateless tokens with configurable expiry (default 24h). Tokens encode user ID and role for efficient authorization.</p>
+    </div>
+    <div class="feature-card">
+      <h4>Password Hashing</h4>
+      <p>PBKDF2-SHA256 via Werkzeug. Plain-text passwords are never stored or logged.</p>
+    </div>
+    <div class="feature-card">
+      <h4>Role-Based Access</h4>
+      <p>@login_required and @admin_required decorators protect all routes. Student tokens cannot access admin endpoints.</p>
+    </div>
+    <div class="feature-card">
+      <h4>Protected Routes</h4>
+      <p>Frontend route guards prevent unauthorized page access before API calls are made.</p>
+    </div>
+    <div class="feature-card">
+      <h4>File Upload Validation</h4>
+      <p>Extension whitelist/blacklist validation. Disallowed extensions: exe, dll, bat, msi, apk, ps1, scr.</p>
+    </div>
+    <div class="feature-card">
+      <h4>CORS Protection</h4>
+      <p>Cross-Origin Resource Sharing configured via Flask-CORS. Restrictable to specific origins in production.</p>
+    </div>
+  </div>
+
+  <div class="diagram-box">
+    <svg viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="20" width="160" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="100" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">Request</text>
+      <line x1="180" y1="45" x2="220" y2="45" stroke="#00FF9D" stroke-width="1.5"/>
+
+      <rect x="230" y="20" width="160" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="310" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">JWT Valid?</text>
+      <line x1="390" y1="45" x2="430" y2="45" stroke="#00FF9D" stroke-width="1.5"/>
+
+      <rect x="440" y="20" width="160" height="50" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="520" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">Role Check</text>
+      <line x1="600" y1="45" x2="640" y2="45" stroke="#00FF9D" stroke-width="1.5"/>
+
+      <rect x="650" y="20" width="130" height="50" rx="8" fill="#00FF9D"/>
+      <text x="715" y="50" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="9" fill="#050505">Allow/Deny</text>
+
+      <rect x="310" y="110" width="180" height="40" rx="8" fill="#1A1A1A" stroke="#333"/>
+      <text x="400" y="135" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#FFF">401 / 403 Response</text>
+      <line x1="520" y1="45" x2="400" y2="110" stroke="#FF4444" stroke-width="1" stroke-dasharray="4,4"/>
+    </svg>
+    <div class="diagram-caption">Request Authorization Pipeline</div>
+  </div>
+</div>
+
+<!-- ===== TESTING ===== -->
+<div class="section page-break">
+  <div class="section-number">Section 10</div>
+  <h1>Testing &amp; Validation</h1>
+  <div class="section-divider"></div>
+
+  <div class="stat-grid">
+    <div class="stat-card"><div class="num" style="font-size:18pt;">100%</div><div class="label">Auth Tests</div><div class="sub">Login, logout, token, roles</div></div>
+    <div class="stat-card"><div class="num" style="font-size:18pt;">100%</div><div class="label">API Tests</div><div class="sub">All endpoints verified</div></div>
+    <div class="stat-card"><div class="num" style="font-size:18pt;">100%</div><div class="label">Feature Tests</div><div class="sub">11 modules validated</div></div>
+    <div class="stat-card"><div class="num" style="font-size:18pt;">PASS</div><div class="label">Security Audit</div><div class="sub">Hashing, RBAC, XSS, SQLi</div></div>
+  </div>
+
+  <h2>Authentication Test Results</h2>
+  <table>
+    <thead><tr><th>Test Case</th><th>Input</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>Valid Admin Login</td><td>admin / Admin1234</td><td class="pass">PASS</td></tr>
+      <tr><td>Valid Student Login</td><td>student / password</td><td class="pass">PASS</td></tr>
+      <tr><td>Wrong Password</td><td>admin / wrong</td><td class="pass">PASS (401)</td></tr>
+      <tr><td>Expired Token</td><td>Past-expiry JWT</td><td class="pass">PASS (401)</td></tr>
+      <tr><td>Tampered Token</td><td>Modified signature</td><td class="pass">PASS (401)</td></tr>
+      <tr><td>Role Escalation</td><td>Student token → admin API</td><td class="pass">PASS (403)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Functional Test Results</h2>
+  <table>
+    <thead><tr><th>Module</th><th>Key Test</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>Authentication</td><td>Full login/register/logout cycle</td><td class="pass">PASS</td></tr>
+      <tr><td>Student Mgmt</td><td>CRUD operations</td><td class="pass">PASS</td></tr>
+      <tr><td>Batch Mgmt</td><td>Create batch, assign students</td><td class="pass">PASS</td></tr>
+      <tr><td>Exams</td><td>Question bank → exam → attempt → score</td><td class="pass">PASS</td></tr>
+      <tr><td>Challenges</td><td>Open → investigate → flag → verify → XP</td><td class="pass">PASS</td></tr>
+      <tr><td>Terminal</td><td>All 10 commands return correct output</td><td class="pass">PASS</td></tr>
+      <tr><td>Gamification</td><td>XP earned, leaderboard updated</td><td class="pass">PASS</td></tr>
+      <tr><td>Analytics</td><td>Charts display correct aggregated data</td><td class="pass">PASS</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== RESULTS ===== -->
+<div class="section page-break">
+  <div class="section-number">Section 11</div>
+  <h1>Results &amp; Impact</h1>
+  <div class="section-divider"></div>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h4>Educational Impact</h4>
+      <p>Students gain hands-on experience without complex setup. The integrated terminal and challenge engine make practical training accessible from day one.</p>
+    </div>
+    <div class="feature-card">
+      <h4>Instructor Benefits</h4>
+      <p>Automated exam evaluation, centralized progress tracking, batch-level analytics, and notification delivery eliminate manual administrative work.</p>
+    </div>
+    <div class="feature-card">
+      <h4>Technical Impact</h4>
+      <p>Full-stack application demonstrating modern architecture: React SPA, Flask REST API, JWT auth, relational database, and browser-based simulation.</p>
+    </div>
+    <div class="feature-card">
+      <h4>Innovation Highlights</h4>
+      <p>Browser-based Linux terminal without VMs, integrated CTF platform, curriculum-aligned challenges, and comprehensive gamification system.</p>
+    </div>
+  </div>
+
+  <h2>Comparison: Traditional Approach vs. MODUS</h2>
+  <table class="comparison-table">
+    <thead><tr><th>Aspect</th><th>Traditional</th><th>MODUS</th></tr></thead>
+    <tbody>
+      <tr><td>Learning Content</td><td>Google Classroom / Moodle</td><td class="yes">Built-in</td></tr>
+      <tr><td>CTF Challenges</td><td>Hack The Box / TryHackMe</td><td class="yes">Built-in</td></tr>
+      <tr><td>Linux Practice</td><td>VM / Cloud Instance</td><td class="yes">Browser-based</td></tr>
+      <tr><td>Exams</td><td>Separate Portal / Paper</td><td class="yes">Built-in</td></tr>
+      <tr><td>Student Tracking</td><td>Spreadsheets</td><td class="yes">Automated</td></tr>
+      <tr><td>Gamification</td><td>Not available</td><td class="yes">XP + Leaderboard</td></tr>
+      <tr><td>Analytics</td><td>Manual compilation</td><td class="yes">Real-time dashboard</td></tr>
+      <tr><td>Infrastructure Cost</td><td>High (VMs, licenses)</td><td class="yes">Zero additional</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== FUTURE ROADMAP ===== -->
+<div class="section page-break">
+  <div class="section-number">Section 12</div>
+  <h1>Future Roadmap</h1>
+  <div class="section-divider"></div>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="tag" style="margin-bottom:8px;">Q3 2026</div>
+      <h4>Docker-Based Live Labs</h4>
+      <p>Spawn real vulnerable containers (OWASP Juice Shop, DVWA) per challenge. Isolated, auto-resetting environments.</p>
+    </div>
+    <div class="feature-card">
+      <div class="tag" style="margin-bottom:8px;">Q3 2026</div>
+      <h4>AI Learning Assistant</h4>
+      <p>LLM-powered tutor for 24/7 student support. Hints for challenges, explanations for concepts, resource recommendations.</p>
+    </div>
+    <div class="feature-card">
+      <div class="tag purple" style="margin-bottom:8px;">Q4 2026</div>
+      <h4>SOC Simulator Module</h4>
+      <p>Blue-team training with simulated security logs, SIEM alerts, and incident response scenarios.</p>
+    </div>
+    <div class="feature-card">
+      <div class="tag purple" style="margin-bottom:8px;">Q4 2026</div>
+      <h4>AD Lab Integration</h4>
+      <p>Active Directory attack simulation: Kerberoasting, BloodHound, lateral movement in isolated environments.</p>
+    </div>
+    <div class="feature-card">
+      <div class="tag blue" style="margin-bottom:8px;">2027</div>
+      <h4>Cloud Deployment</h4>
+      <p>PostgreSQL migration, containerization (Docker Compose), cloud-ready deployment on AWS/Azure/GCP.</p>
+    </div>
+    <div class="feature-card">
+      <div class="tag blue" style="margin-bottom:8px;">2027</div>
+      <h4>Multi-Tenant SaaS</h4>
+      <p>Academy-level isolation for commercial hosting. Each organization gets its own MODUS instance with custom branding.</p>
+    </div>
+    <div class="feature-card">
+      <div class="tag orange" style="margin-bottom:8px;">2027</div>
+      <h4>Certificate Engine</h4>
+      <p>Automated PDF certificates on course completion. QR-verified, shareable credentials.</p>
+    </div>
+    <div class="feature-card">
+      <div class="tag orange" style="margin-bottom:8px;">2027</div>
+      <h4>Bug Bounty Module</h4>
+      <p>Structured bug bounty training with recon labs, web testing scenarios, and vulnerability reporting practice.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FINAL ASSESSMENT ===== -->
+<div class="section page-break">
+  <div class="section-number">Section 13</div>
+  <h1>Final Product Assessment</h1>
+  <div class="section-divider"></div>
+
+  <div class="glass">
+    <h3 style="color:var(--accent);">Strengths</h3>
+    <ul>
+      <li><strong>Unified platform</strong> eliminates tool fragmentation — one login for LMS, CTF, exams, and labs.</li>
+      <li><strong>Zero-infrastructure Linux lab</strong> — browser-based terminal simulator requires no VMs, Docker, or cloud instances.</li>
+      <li><strong>Complete CTF platform</strong> with flag validation, XP rewards, and leaderboard integration.</li>
+      <li><strong>Curriculum-aligned content</strong> — instructors create challenges that directly match their teaching modules.</li>
+      <li><strong>Modern architecture</strong> — React/Flask/SQLite stack with clear separation of concerns.</li>
+      <li><strong>Self-hosted</strong> — full institutional control over data and infrastructure.</li>
+    </ul>
+  </div>
+
+  <div class="glass">
+    <h3 style="color:var(--accent);">Unique Features</h3>
+    <ul>
+      <li><strong>Browser-based Linux Terminal</strong> — virtual filesystem with 10+ command handlers, no external infrastructure.</li>
+      <li><strong>Integrated CTF + LMS</strong> — challenges embedded directly into the learning flow, not a separate platform.</li>
+      <li><strong>Batch-isolated content</strong> — run multiple courses simultaneously with independent curricula.</li>
+      <li><strong>Gamified cybersecurity training</strong> — XP, leaderboards, and rankings built into every module.</li>
+    </ul>
+  </div>
+
+  <div class="glass">
+    <h3 style="color:var(--accent);">Market Potential</h3>
+    <p>MODUS addresses a clear gap in the cybersecurity training market. Existing solutions either provide LMS functionality (Moodle, Google Classroom) without practical labs, or provide CTF training (HTB, TryHackMe) without institutional management. MODUS is the only platform that combines both in a self-hosted, curriculum-aligned package.</p>
+    <p>Target markets include: cybersecurity training institutes, SOC academies, university cybersecurity programs, corporate training departments, and bootcamp providers.</p>
+  </div>
+
+  <div class="glass">
+    <h3 style="color:var(--accent);">Technical Value</h3>
+    <p>The platform demonstrates production-quality software engineering: RESTful API design, JWT-based security, normalized database schema, component-based UI architecture, service layer pattern, and comprehensive error handling. The Linux terminal simulator represents a particularly strong technical achievement, implementing a virtual filesystem and command interpreter entirely in the browser.</p>
+  </div>
+</div>
+
+<div class="section" style="padding-bottom:40px;">
+  <div class="footer-note">MODUS Product Documentation — Nandhana K.S — June 2026</div>
+</div>
+
+</body>
+</html>
